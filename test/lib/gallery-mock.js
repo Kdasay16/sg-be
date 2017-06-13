@@ -9,7 +9,7 @@ module.exports = function(done){
   debug('create mock gallery')
   let exampleGallery = {
     name: 'beach adventure',
-    desc: 'not enough sun screan ouch',
+    description: 'not enough sun screan ouch',
   }
   userMock.call(this, err => {
     if (err) 

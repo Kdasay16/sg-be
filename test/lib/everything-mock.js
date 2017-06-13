@@ -98,20 +98,20 @@ function mockAUser(){
 
 function mockAGallery(userID, username){
   let name = lorem({count: 2, units: 'word'})
-  let desc = lorem({count: 2, units: 'sentence'})
-  let exampleGallery = { name, desc , userID, username}
+  let description = lorem({count: 2, units: 'sentence'})
+  let exampleGallery = { name, description , userID, username}
   return new Gallery(exampleGallery).save()
 }
 
 function mockAPic(userID, username){
   let name = lorem({count: 2, units: 'word'})
-  let desc = lorem({count: 2, units: 'sentence'})
+  let description = lorem({count: 2, units: 'sentence'})
   let uri = lorem({count: 5, units: 'word'}).split(' ').join('-')
   let objectKey = lorem({count: 5, units: 'word'}).split(' ').join('')
   let imageURI = `https://${uri}/${objectKey}`
   let examplePicData = {
     name,
-    desc,
+    description,
     userID,
     username,
     imageURI,

@@ -3,8 +3,8 @@
 const expect = require('chai').expect
 const fuzzyQuery = require('../lib/fuzzy-query.js')
 
-describe('testing module fuzzy-query', function(){
-  describe('with valid input', function(){
+descriptionribe('testing module fuzzy-query', function(){
+  descriptionribe('with valid input', function(){
     let fields = ['name', 'duck']
     let query = {
       name: 'slug',
@@ -20,7 +20,7 @@ describe('testing module fuzzy-query', function(){
     })
   })
 
-  describe('with bad array', function(){
+  descriptionribe('with bad array', function(){
     let fields = '' 
     let query = {
       name: 'slug',
@@ -34,7 +34,7 @@ describe('testing module fuzzy-query', function(){
     })
   })
 
-  describe('with bad array', function(){
+  descriptionribe('with bad array', function(){
     let fields = []
     let query = ''
 

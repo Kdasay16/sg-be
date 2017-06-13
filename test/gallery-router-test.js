@@ -28,10 +28,10 @@ const url = `http://localhost:${process.env.PORT}`
 mongoose.Promise = Promise
 let exampleGallery = {
   name: 'beach adventure',
-  desc: 'not enough sun screan ouch',
+  description: 'not enough sun screan ouch',
 }
 
-describe('test /api/gallery', function(){
+descriptionribe('test /api/gallery', function(){
   // start server at for this test file
   before(done => serverCtrl.serverUp(server, done))
   // stop server after this test file
@@ -39,9 +39,9 @@ describe('test /api/gallery', function(){
   // clean all models from db after each test
   afterEach(done => cleanDB(done))
 
-  describe('testing POST to /api/gallery', () => {
+  descriptionribe('testing POST to /api/gallery', () => {
     // create this.tempUser and this.tempToken
-    describe('with valid token and body', () => {
+    descriptionribe('with valid token and body', () => {
       before(done => mockUser.call(this, done))
       it('should return a gallery', done => {
         request.post(`${url}/api/gallery`)
@@ -51,7 +51,7 @@ describe('test /api/gallery', function(){
           if (err)
             return done(err)
           expect(res.body.name).to.equal(exampleGallery.name)
-          expect(res.body.desc).to.equal(exampleGallery.desc)
+          expect(res.body.description).to.equal(exampleGallery.description)
           expect(res.body.userID).to.equal(this.tempUser._id.toString())
           let date = new Date(res.body.created).toString()
           expect(date).to.not.equal('Invalid Date')
@@ -60,7 +60,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with invalid token', () => {
+    descriptionribe('with invalid token', () => {
       before(done => mockUser.call(this, done))
       it('should respond with status 401', done => {
         request.post(`${url}/api/gallery`)
@@ -74,7 +74,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with invalid Bearer auth', () => {
+    descriptionribe('with invalid Bearer auth', () => {
       before(done => mockUser.call(this, done))
       it('should respond with status 400', done => {
         request.post(`${url}/api/gallery`)
@@ -88,7 +88,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with no Authorization header', () => {
+    descriptionribe('with no Authorization header', () => {
       before(done => mockUser.call(this, done))
       it('should respond with status 400', done => {
         request.post(`${url}/api/gallery`)
@@ -101,12 +101,12 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with no name', () => {
+    descriptionribe('with no name', () => {
       before(done => mockUser.call(this, done))
       it('should respond with status 400', done => {
         request.post(`${url}/api/gallery`)
         .set({Authorization: `Bearer ${this.tempToken}`})
-        .send({ desc: exampleGallery.desc})
+        .send({ description: exampleGallery.description})
         .end((err, res) => {
           expect(res.status).to.equal(400)
           expect(res.text).to.equal('BadRequestError')
@@ -115,7 +115,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with no desc', () => {
+    descriptionribe('with no description', () => {
       before(done => mockUser.call(this, done))
       it('should respond with status 400', done => {
         request.post(`${url}/api/gallery`)
@@ -130,9 +130,9 @@ describe('test /api/gallery', function(){
     })
   })
 
-  describe('testing GET to /api/gallery/:id', () => {
+  descriptionribe('testing GET to /api/gallery/:id', () => {
     // create this.tempToken, this.tempUser, this.tempGallery
-    describe('with valid token and id', function(){
+    descriptionribe('with valid token and id', function(){
       before(done => mockGallery.call(this, done))
       it('should return a gallery', done => {
         request.get(`${url}/api/gallery/${this.tempGallery._id}`)
@@ -143,7 +143,7 @@ describe('test /api/gallery', function(){
           if (err)
             return done(err)
           expect(res.body.name).to.equal(exampleGallery.name)
-          expect(res.body.desc).to.equal(exampleGallery.desc)
+          expect(res.body.description).to.equal(exampleGallery.description)
           expect(res.body.userID).to.equal(this.tempUser._id.toString())
           let date = new Date(res.body.created).toString()
           expect(date).to.equal(this.tempGallery.created.toString())
@@ -152,7 +152,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with many pictures', function(){
+    descriptionribe('with many pictures', function(){
       before(done => mockManyPics.call(this, 100, done))
       it('should return a gallery', done => {
         request.get(`${url}/api/gallery/${this.tempGallery._id}`)
@@ -163,7 +163,7 @@ describe('test /api/gallery', function(){
           if (err)
             return done(err)
           expect(res.body.name).to.equal(exampleGallery.name)
-          expect(res.body.desc).to.equal(exampleGallery.desc)
+          expect(res.body.description).to.equal(exampleGallery.description)
           expect(res.body.userID).to.equal(this.tempUser._id.toString())
           expect(Array.isArray(res.body.pics)).to.equal(true)
           expect(res.body.pics.length).to.equal(100)
@@ -172,7 +172,7 @@ describe('test /api/gallery', function(){
           for (let i=0; i< res.body.pics.length; i++){
             expect(res.body.pics[i]._id.toString()).to.equal(this.tempPics[i]._id.toString())
             expect(res.body.pics[i].name).to.equal(this.tempPics[i].name)
-            expect(res.body.pics[i].desc).to.equal(this.tempPics[i].desc)
+            expect(res.body.pics[i].description).to.equal(this.tempPics[i].description)
             expect(res.body.pics[i].imageURI).to.equal(this.tempPics[i].imageURI)
           }
           done()
@@ -180,7 +180,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?itemcount=10&itempage=2',  function(){
+    descriptionribe('with ?itemcount=10&itempage=2',  function(){
       before(done => mockManyPics.call(this, 100, done))
       it('should return a gallery', done => {
         request.get(`${url}/api/gallery/${this.tempGallery._id}?itemcount=10&itempage=2`)
@@ -191,7 +191,7 @@ describe('test /api/gallery', function(){
           if (err)
             return done(err)
           expect(res.body.name).to.equal(exampleGallery.name)
-          expect(res.body.desc).to.equal(exampleGallery.desc)
+          expect(res.body.description).to.equal(exampleGallery.description)
           expect(res.body.userID).to.equal(this.tempUser._id.toString())
           expect(Array.isArray(res.body.pics)).to.equal(true)
           expect(res.body.pics.length).to.equal(10)
@@ -200,7 +200,7 @@ describe('test /api/gallery', function(){
           for (let i=0; i< res.body.pics.length; i++){
             expect(res.body.pics[i]._id.toString()).to.equal(this.tempPics[i + 10 ]._id.toString())
             expect(res.body.pics[i].name).to.equal(this.tempPics[i + 10].name)
-            expect(res.body.pics[i].desc).to.equal(this.tempPics[i + 10].desc)
+            expect(res.body.pics[i].description).to.equal(this.tempPics[i + 10].description)
             expect(res.body.pics[i].imageURI).to.equal(this.tempPics[i + 10].imageURI)
           }
           done()
@@ -208,7 +208,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with many pictures and ?itemcount=10', function(){
+    descriptionribe('with many pictures and ?itemcount=10', function(){
       before(done => mockManyPics.call(this, 100, done))
       it('should return a gallery', done => {
         request.get(`${url}/api/gallery/${this.tempGallery._id}?itemcount=10`)
@@ -219,7 +219,7 @@ describe('test /api/gallery', function(){
           if (err)
             return done(err)
           expect(res.body.name).to.equal(exampleGallery.name)
-          expect(res.body.desc).to.equal(exampleGallery.desc)
+          expect(res.body.description).to.equal(exampleGallery.description)
           expect(res.body.userID).to.equal(this.tempUser._id.toString())
           expect(Array.isArray(res.body.pics)).to.equal(true)
           expect(res.body.pics.length).to.equal(10)
@@ -228,7 +228,7 @@ describe('test /api/gallery', function(){
           for (let i=0; i< res.body.pics.length; i++){
             expect(res.body.pics[i]._id.toString()).to.equal(this.tempPics[i]._id.toString())
             expect(res.body.pics[i].name).to.equal(this.tempPics[i].name)
-            expect(res.body.pics[i].desc).to.equal(this.tempPics[i].desc)
+            expect(res.body.pics[i].description).to.equal(this.tempPics[i].description)
             expect(res.body.pics[i].imageURI).to.equal(this.tempPics[i].imageURI)
           }
           done()
@@ -236,7 +236,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with many pictures and ?itemcount=10&itemsort=dsc', function(){
+    descriptionribe('with many pictures and ?itemcount=10&itemsort=dsc', function(){
       before(done => mockManyPics.call(this, 100, done))
       it('should return a gallery', done => {
         request.get(`${url}/api/gallery/${this.tempGallery._id}?itemcount=10&itemsort=dsc`)
@@ -247,7 +247,7 @@ describe('test /api/gallery', function(){
           if (err)
             return done(err)
           expect(res.body.name).to.equal(exampleGallery.name)
-          expect(res.body.desc).to.equal(exampleGallery.desc)
+          expect(res.body.description).to.equal(exampleGallery.description)
           expect(res.body.userID).to.equal(this.tempUser._id.toString())
           expect(Array.isArray(res.body.pics)).to.equal(true)
           expect(res.body.pics.length).to.equal(10)
@@ -257,7 +257,7 @@ describe('test /api/gallery', function(){
           for (let i=0; i< res.body.pics.length; i++){
             expect(res.body.pics[i]._id.toString()).to.equal(this.tempPics[tempPicsLength - 1 - i]._id.toString())
             expect(res.body.pics[i].name).to.equal(this.tempPics[tempPicsLength - 1 - i].name)
-            expect(res.body.pics[i].desc).to.equal(this.tempPics[tempPicsLength - 1 - i].desc)
+            expect(res.body.pics[i].description).to.equal(this.tempPics[tempPicsLength - 1 - i].description)
             expect(res.body.pics[i].imageURI).to.equal(this.tempPics[tempPicsLength - 1 - i].imageURI)
           }
           done()
@@ -265,7 +265,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with many pictures and ?itemcount=10&itemsort=dsc?itemoffset=1', function(){
+    descriptionribe('with many pictures and ?itemcount=10&itemsort=dsc?itemoffset=1', function(){
       before(done => mockManyPics.call(this, 100, done))
       it('should return a gallery', done => {
         request.get(`${url}/api/gallery/${this.tempGallery._id}?itemcount=10&itemsort=dsc&itemoffset=1`)
@@ -276,7 +276,7 @@ describe('test /api/gallery', function(){
           if (err)
             return done(err)
           expect(res.body.name).to.equal(exampleGallery.name)
-          expect(res.body.desc).to.equal(exampleGallery.desc)
+          expect(res.body.description).to.equal(exampleGallery.description)
           expect(res.body.userID).to.equal(this.tempUser._id.toString())
           expect(Array.isArray(res.body.pics)).to.equal(true)
           expect(res.body.pics.length).to.equal(10)
@@ -286,7 +286,7 @@ describe('test /api/gallery', function(){
           for (let i=0; i< res.body.pics.length; i++){
             expect(res.body.pics[i]._id.toString()).to.equal(this.tempPics[tempPicsLength - 2 - i]._id.toString())
             expect(res.body.pics[i].name).to.equal(this.tempPics[tempPicsLength - 2 - i].name)
-            expect(res.body.pics[i].desc).to.equal(this.tempPics[tempPicsLength - 2 - i].desc)
+            expect(res.body.pics[i].description).to.equal(this.tempPics[tempPicsLength - 2 - i].description)
             expect(res.body.pics[i].imageURI).to.equal(this.tempPics[tempPicsLength - 2 - i].imageURI)
           }
           done()
@@ -294,7 +294,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with many pictures and ?itemcount=10&itemoffset=1', function(){
+    descriptionribe('with many pictures and ?itemcount=10&itemoffset=1', function(){
       before(done => mockManyPics.call(this, 100, done))
       it('should return a gallery', done => {
         request.get(`${url}/api/gallery/${this.tempGallery._id}?itemcount=10&itemoffset=1`)
@@ -305,7 +305,7 @@ describe('test /api/gallery', function(){
           if (err)
             return done(err)
           expect(res.body.name).to.equal(exampleGallery.name)
-          expect(res.body.desc).to.equal(exampleGallery.desc)
+          expect(res.body.description).to.equal(exampleGallery.description)
           expect(res.body.userID).to.equal(this.tempUser._id.toString())
           expect(Array.isArray(res.body.pics)).to.equal(true)
           expect(res.body.pics.length).to.equal(10)
@@ -314,7 +314,7 @@ describe('test /api/gallery', function(){
           for (let i=0; i< res.body.pics.length; i++){
             expect(res.body.pics[i]._id.toString()).to.equal(this.tempPics[i + 1]._id.toString())
             expect(res.body.pics[i].name).to.equal(this.tempPics[i + 1].name)
-            expect(res.body.pics[i].desc).to.equal(this.tempPics[i + 1].desc)
+            expect(res.body.pics[i].description).to.equal(this.tempPics[i + 1].description)
             expect(res.body.pics[i].imageURI).to.equal(this.tempPics[i + 1].imageURI)
           }
           done()
@@ -322,7 +322,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with invalid token', function(){
+    descriptionribe('with invalid token', function(){
       before(done => mockGallery.call(this, done))
       it('should respond with status 401', done => {
         request.get(`${url}/api/gallery/${this.tempGallery._id}`)
@@ -337,7 +337,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with invalid Bearer auth', function(){
+    descriptionribe('with invalid Bearer auth', function(){
       before(done => mockGallery.call(this, done))
       it('should respond with status 400', done => {
         request.get(`${url}/api/gallery/${this.tempGallery._id}`)
@@ -350,7 +350,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with no Authorization header', function(){
+    descriptionribe('with no Authorization header', function(){
       before(done => mockGallery.call(this, done))
       it('should respond with status 400', done => {
         request.get(`${url}/api/gallery/${this.tempGallery._id}`)
@@ -362,7 +362,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with invalid id', function(){
+    descriptionribe('with invalid id', function(){
       before(done => mockGallery.call(this, done))
       it('should return a gallery', done => {
         request.get(`${url}/api/gallery/${this.tempGallery._id}bad`)
@@ -377,7 +377,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with user whos been removed', function(){
+    descriptionribe('with user whos been removed', function(){
       before(done => mockGallery.call(this, done))
       before(done => {
         User.remove({})
@@ -398,7 +398,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with wrong user', function(){
+    descriptionribe('with wrong user', function(){
       // mock user, password, token, and gallery
       before(done => mockGallery.call(this, done))
       // overwrite user, password, and token with new user
@@ -418,8 +418,8 @@ describe('test /api/gallery', function(){
     })
   })
 
-  describe('testing PUT /api/gallery/:galleryID', function(){
-    describe('update name ande desc', function(){
+  descriptionribe('testing PUT /api/gallery/:galleryID', function(){
+    descriptionribe('update name ande description', function(){
       // mock user, password, token, and gallery
       before(done => mockGallery.call(this, done))
 
@@ -427,7 +427,7 @@ describe('test /api/gallery', function(){
         request.put(`${url}/api/gallery/${this.tempGallery._id}`)
         .send({
           name: 'hello',
-          desc: 'cool',
+          description: 'cool',
         })
         .set({
           Authorization: `Bearer ${this.tempToken}`,
@@ -436,13 +436,13 @@ describe('test /api/gallery', function(){
           if(err) return done(err)
           expect(res.status).to.equal(200)
           expect(res.body.name).to.equal('hello')
-          expect(res.body.desc).to.equal('cool')
+          expect(res.body.description).to.equal('cool')
           done()
         })
       })
     })
 
-    describe('update name ande desc', function(){
+    descriptionribe('update name ande description', function(){
       // mock user, password, token, and gallery
       before(done => mockGallery.call(this, done))
       before(done => mockUser.call(this, done))
@@ -451,7 +451,7 @@ describe('test /api/gallery', function(){
         request.put(`${url}/api/gallery/${this.tempGallery._id}`)
         .send({
           name: 'hello',
-          desc: 'cool',
+          description: 'cool',
         })
         .set({
           Authorization: `Bearer ${this.tempToken}`,
@@ -463,7 +463,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('update name', function(){
+    descriptionribe('update name', function(){
       // mock user, password, token, and gallery
       before(done => mockGallery.call(this, done))
 
@@ -479,20 +479,20 @@ describe('test /api/gallery', function(){
           if (err) return done(err)
           expect(res.status).to.equal(200)
           expect(res.body.name).to.equal('hello')
-          expect(res.body.desc).to.equal(this.tempGallery.desc)
+          expect(res.body.description).to.equal(this.tempGallery.description)
           done()
         })
       })
     })
 
-    describe('update desc', function(){
+    descriptionribe('update description', function(){
       // mock user, password, token, and gallery
       before(done => mockGallery.call(this, done))
 
       it('should return a gallery', done => {
         request.put(`${url}/api/gallery/${this.tempGallery._id}`)
         .send({
-          desc: 'cool',
+          description: 'cool',
         })
         .set({
           Authorization: `Bearer ${this.tempToken}`,
@@ -501,20 +501,20 @@ describe('test /api/gallery', function(){
           if (err) return done(err)
           expect(res.status).to.equal(200)
           expect(res.body.name).to.equal(this.tempGallery.name)
-          expect(res.body.desc).to.equal('cool')
+          expect(res.body.description).to.equal('cool')
           done()
         })
       })
     })
 
-    describe('with bad galeryID', function(){
+    descriptionribe('with bad galeryID', function(){
       // mock user, password, token, and gallery
       before(done => mockGallery.call(this, done))
 
       it('should return a gallery', done => {
         request.put(`${url}/api/gallery/${this.tempGallery._id}bad`)
         .send({
-          desc: 'cool',
+          description: 'cool',
         })
         .set({
           Authorization: `Bearer ${this.tempToken}`,
@@ -527,14 +527,14 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with bad token', function(){
+    descriptionribe('with bad token', function(){
       // mock user, password, token, and gallery
       before(done => mockGallery.call(this, done))
 
       it('should respond with status 401', done => {
         request.put(`${url}/api/gallery/${this.tempGallery._id}`)
         .send({
-          desc: 'cool',
+          description: 'cool',
         })
         .set({
           Authorization: `Bearer ${this.tempToken}bad`,
@@ -547,14 +547,14 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('witn no auth', function(){
+    descriptionribe('witn no auth', function(){
       // mock user, password, token, and gallery
       before(done => mockGallery.call(this, done))
 
       it('should respond with status 400', done => {
         request.put(`${url}/api/gallery/${this.tempGallery._id}bad`)
         .send({
-          desc: 'cool',
+          description: 'cool',
         })
         .end((err, res) => {
           expect(res.status).to.equal(400)
@@ -565,8 +565,8 @@ describe('test /api/gallery', function(){
     })
   })
 
-  describe('testing DELETE /api/gallery/:galleryID', function(){
-    describe('should respond with status 204', function(){
+  descriptionribe('testing DELETE /api/gallery/:galleryID', function(){
+    descriptionribe('should respond with status 204', function(){
       // mock user, password, token, and gallery
       before(done => mockGallery.call(this, done))
       it('should return a gallery', done => {
@@ -581,7 +581,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with invalid galleryID', function(){
+    descriptionribe('with invalid galleryID', function(){
       // mock user, password, token, and gallery
       before(done => mockGallery.call(this, done))
       it('should return a gallery', done => {
@@ -595,7 +595,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with invalid galleryID', function(){
+    descriptionribe('with invalid galleryID', function(){
       // mock user, password, token, and gallery
       before(done => mockGallery.call(this, done))
       before(done => mockUser.call(this, done))
@@ -609,7 +609,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with invalid token', function(){
+    descriptionribe('with invalid token', function(){
       // mock user, password, token, and gallery
       before(done => mockGallery.call(this, done))
       it('should respond with status 401', done => {
@@ -625,7 +625,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('witn no auth', function(){
+    descriptionribe('witn no auth', function(){
       // mock user, password, token, and gallery
       before(done => mockGallery.call(this, done))
       it('should respond with status 400', done => {
@@ -639,8 +639,8 @@ describe('test /api/gallery', function(){
     })
   })
 
-  describe('testing GET /api/gallery', function(){
-    describe('with valid request', function(){
+  descriptionribe('testing GET /api/gallery', function(){
+    descriptionribe('with valid request', function(){
       before( done => mockManyGallerys.call(this, 100, done))
       it('should respond with status 400', done => {
         request.get(`${url}/api/gallery`)
@@ -654,7 +654,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?pagesize=10', function(){
+    descriptionribe('with ?pagesize=10', function(){
       before( done => mockManyGallerys.call(this, 100, done))
       it('should return 10 notes', done => {
         request.get(`${url}/api/gallery?pagesize=5`)
@@ -671,7 +671,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?sort=dsc', function(){
+    descriptionribe('with ?sort=dsc', function(){
       before( done => mockManyGallerys.call(this, 100, done))
       it('should return 10 notes', done => {
         request.get(`${url}/api/gallery?sort=dsc`)
@@ -688,7 +688,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?sort=dsc?offset=3', function(){
+    descriptionribe('with ?sort=dsc?offset=3', function(){
       before( done => mockManyGallerys.call(this, 100, done))
       it('should return 10 notes', done => {
         request.get(`${url}/api/gallery?sort=dsc&offset=3`)
@@ -706,7 +706,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with offset=1', function(){
+    descriptionribe('with offset=1', function(){
       before( done => mockManyGallerys.call(this, 100, done))
       it('should return 10 notes', done => {
         request.get(`${url}/api/gallery?offset=1`)
@@ -723,7 +723,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?page=2', function(){
+    descriptionribe('with ?page=2', function(){
       before( done => mockManyGallerys.call(this, 100, done))
       it('should return 10 notes', done => {
         request.get(`${url}/api/gallery?page=2`)
@@ -740,7 +740,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?page=3&?offset=1', function(){
+    descriptionribe('with ?page=3&?offset=1', function(){
       before( done => mockManyGallerys.call(this, 150, done))
       it('should return 10 notes', done => {
         request.get(`${url}/api/gallery?page=3&offset=1`)
@@ -757,7 +757,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?page=-1', function(){
+    descriptionribe('with ?page=-1', function(){
       before( done => mockManyGallerys.call(this, 150, done))
       it('should return 10 notes', done => {
         request.get(`${url}/api/gallery?page=-1`)
@@ -774,7 +774,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?pagesize=-1', function(){
+    descriptionribe('with ?pagesize=-1', function(){
       before( done => mockManyGallerys.call(this, 50, done))
       it('should return 10 notes', done => {
         request.get(`${url}/api/gallery?pagesize=-1`)
@@ -791,7 +791,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?pagesize=300', function(){
+    descriptionribe('with ?pagesize=300', function(){
       before( done => mockManyGallerys.call(this, 300, done))
       it('should return 10 notes', done => {
         request.get(`${url}/api/gallery?pagesize=250`)
@@ -808,7 +808,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with invalid token', function(){
+    descriptionribe('with invalid token', function(){
       before( done => mockManyGallerys.call(this, 50, done))
       it('should respond with status 401', done => {
         request.get(`${url}/api/gallery`)
@@ -821,7 +821,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?name=co', function(){
+    descriptionribe('with ?name=co', function(){
       before( done => mockManyGallerys.call(this, 100, done))
       it('should respond nodes with fuzzy match co', done => {
         request.get(`${url}/api/gallery?name=co`)
@@ -839,10 +839,10 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?desc=co', function(){
+    descriptionribe('with ?description=co', function(){
       before( done => mockManyGallerys.call(this, 100, done))
       it('should respond nodes with fuzzy match co', done => {
-        request.get(`${url}/api/gallery?desc=co`)
+        request.get(`${url}/api/gallery?description=co`)
         .set({ Authorization: `Bearer ${this.tempToken}` })
         .end((err, res) => {
           expect(res.status).to.equal(200)
@@ -850,7 +850,7 @@ describe('test /api/gallery', function(){
           console.log('matching notes', res.body.length)
           let fuzzyName = fuzzyRegex('co')
           for (let i=0; i < res.body.length; i++){
-            expect(res.body[i].desc).to.match(fuzzyName)
+            expect(res.body[i].description).to.match(fuzzyName)
           }
           done()
         })
@@ -858,8 +858,8 @@ describe('test /api/gallery', function(){
     })
   })
 
-  describe('testing GET /api/public/gallery', function(){
-    describe('with valid request', function(){
+  descriptionribe('testing GET /api/public/gallery', function(){
+    descriptionribe('with valid request', function(){
       let options = {
         users: 4,
         gallerys: 3,
@@ -877,7 +877,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?username=lu', function(){
+    descriptionribe('with ?username=lu', function(){
       let options = {
         users: 30,
         gallerys: 1,
@@ -900,7 +900,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?name=lu', function(){
+    descriptionribe('with ?name=lu', function(){
       let options = {
         users: 5,
         gallerys: 10,
@@ -923,7 +923,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?itemcount=4', function(){
+    descriptionribe('with ?itemcount=4', function(){
       let options = {
         users: 2,
         gallerys: 5,
@@ -944,7 +944,7 @@ describe('test /api/gallery', function(){
       })
     })
 
-    describe('with ?pagesize=4', function(){
+    descriptionribe('with ?pagesize=4', function(){
       let options = {
         users: 2,
         gallerys: 5,

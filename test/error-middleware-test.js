@@ -25,8 +25,8 @@ function mockRes (){
   return res
 }
 
-describe('testing errorMiddleware', function(){
-  describe('with vanilla Error', function(){
+descriptionribe('testing errorMiddleware', function(){
+  descriptionribe('with vanilla Error', function(){
     let res
     before(() => res = mockRes())
     it('should respond with status 500', done => {
@@ -39,7 +39,7 @@ describe('testing errorMiddleware', function(){
     })
   })
 
-  describe('http-errors error', function(){
+  descriptionribe('http-errors error', function(){
     let res
     before(() => res = mockRes())
     it('should respond with status 418', done => {
@@ -52,7 +52,7 @@ describe('testing errorMiddleware', function(){
     })
   })
 
-  describe('with ValidationError', function(){
+  descriptionribe('with ValidationError', function(){
     let res
     before(() => res = mockRes())
     it('should respond with status 418', done => {
@@ -66,7 +66,7 @@ describe('testing errorMiddleware', function(){
     })
   })
 
-  describe('with MongoError && err.message = "E11000 duplicate"', function(){
+  descriptionribe('with MongoError && err.message = "E11000 duplicate"', function(){
     let res
     before(() => res = mockRes())
     it('should respond with status 409', done => {

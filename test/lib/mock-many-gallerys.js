@@ -26,7 +26,7 @@ module.exports = function(count, done){
 
 function mockAGallery(userID, username){
   let name = lorem({count: 2, units: 'word'})
-  let desc = lorem({count: 2, units: 'sentence'})
-  let exampleGallery = { name, desc , userID, username}
+  let description = lorem({count: 2, units: 'sentence'})
+  let exampleGallery = { name, description , userID, username}
   return new Gallery(exampleGallery).save()
 }

@@ -21,7 +21,7 @@ const exampleUser = {
   email: 'slug@slug.slime',
 }
 
-describe('testing auth-router', function(){
+descriptionribe('testing auth-router', function(){
   // start server at for this test file
   before(done => serverCtrl.serverUp(server, done))
   // stop server after this test file
@@ -29,8 +29,8 @@ describe('testing auth-router', function(){
   // clean all models from db after each test
   afterEach(done => cleanDB(done))
 
-  describe('testing POST /api/signup', function(){
-    describe('with valid body', function(){
+  descriptionribe('testing POST /api/signup', function(){
+    descriptionribe('with valid body', function(){
       it('should return a token', (done) => {
         request.post(`${url}/api/signup`)
         .send(exampleUser)
@@ -44,7 +44,7 @@ describe('testing auth-router', function(){
       })
     })
 
-    describe('with no username', function(){
+    descriptionribe('with no username', function(){
       it('should respond with status 400', (done) => {
         request.post(`${url}/api/signup`)
         .send({
@@ -59,7 +59,7 @@ describe('testing auth-router', function(){
       })
     })
 
-    describe('with username < 5', function(){
+    descriptionribe('with username < 5', function(){
       it('should respond with status 400', (done) => {
         request.post(`${url}/api/signup`)
         .send({
@@ -75,7 +75,7 @@ describe('testing auth-router', function(){
       })
     })
 
-    describe('with duplicate username', function(){
+    descriptionribe('with duplicate username', function(){
       before( done => mockUser.call(this, done))
       it('should respond with status 409', (done) => {
         request.post(`${url}/api/signup`)
@@ -92,7 +92,7 @@ describe('testing auth-router', function(){
       })
     })
 
-    describe('with duplicate email', function(){
+    descriptionribe('with duplicate email', function(){
       before( done => mockUser.call(this, done))
       it('should respond with status 409', (done) => {
         request.post(`${url}/api/signup`)
@@ -110,7 +110,7 @@ describe('testing auth-router', function(){
     })
 
 
-    describe('with no email', function(){
+    descriptionribe('with no email', function(){
       it('should respond with status 400', (done) => {
         request.post(`${url}/api/signup`)
         .send({
@@ -125,7 +125,7 @@ describe('testing auth-router', function(){
       })
     })
 
-    describe('with no password', function(){
+    descriptionribe('with no password', function(){
       it('should respond with status 400', (done) => {
         request.post(`${url}/api/signup`)
         .send({
@@ -140,7 +140,7 @@ describe('testing auth-router', function(){
       })
     })
     
-    describe('with password.length < 8', function(){
+    descriptionribe('with password.length < 8', function(){
       it('should respond with status 400', (done) => {
         request.post(`${url}/api/signup`)
         .send({
@@ -157,8 +157,8 @@ describe('testing auth-router', function(){
     })
   })
 
-  describe('testing GET /api/signup', function(){
-    describe('with valid auth', function(){
+  descriptionribe('testing GET /api/signup', function(){
+    descriptionribe('with valid auth', function(){
       before(done => mockUser.call(this, done))
       it('should return a token', (done) => {
         request.get(`${url}/api/login`)
@@ -174,7 +174,7 @@ describe('testing auth-router', function(){
       })
     })
 
-    describe('with bad username', function(){
+    descriptionribe('with bad username', function(){
       before(done => mockUser.call(this, done))
       it('should respond with status 401', (done) => {
         request.get(`${url}/api/login`)
@@ -188,7 +188,7 @@ describe('testing auth-router', function(){
       })
     })
 
-    describe('with bad username', function(){
+    descriptionribe('with bad username', function(){
       before(done => mockUser.call(this, done))
       it('should respond with status 401', (done) => {
         request.get(`${url}/api/login`)
@@ -202,7 +202,7 @@ describe('testing auth-router', function(){
       })
     })
 
-    describe('with bad password', function(){
+    descriptionribe('with bad password', function(){
       before(done => mockUser.call(this, done))
       it('should respond with status 401', (done) => {
         request.get(`${url}/api/login`)

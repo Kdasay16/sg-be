@@ -63,7 +63,7 @@ picRouter.post('/api/gallery/:galleryID/pic', bearerAuth, upload.single('file'),
     let picData = {
       name: req.body.name,
       username: req.user.username,
-      desc: req.body.desc,
+      description: req.body.description,
       objectKey: s3data.Key,
       imageURI: s3data.Location,
       userID: req.user._id,
@@ -124,7 +124,7 @@ picRouter.delete('/api/gallery/:galleryID/pic/:picID', bearerAuth, function(req,
 })
 
 picRouter.get('/api/public/pic', pageQuery, function(req, res, next){
-  let fields = ['username', 'name', 'desc']
+  let fields = ['username', 'name', 'description']
   let query = fuzzyQuery(fields, req.query)
 
   Pic.find(query)
@@ -135,7 +135,7 @@ picRouter.get('/api/public/pic', pageQuery, function(req, res, next){
 
  // this route is private and only returns a users pictures
 picRouter.get('/api/pic', bearerAuth, pageQuery, function(req, res, next){
-  let fuzzyFields = [ 'name', 'desc' ]
+  let fuzzyFields = [ 'name', 'description' ]
   let query = fuzzyQuery(fuzzyFields, req.query)
   query.userID = req.user._id.toString() 
   Pic.find(query)

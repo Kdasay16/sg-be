@@ -6,8 +6,8 @@ let awsMocks = require('./lib/aws-mocks.js')
 const expect = require('chai').expect
 const s3UploadPromise = require('../lib/s3-upload-promise.js')
 
-describe('testing s3UploadPromise', function(){
-  describe('with valid input', function(){
+descriptionribe('testing s3UploadPromise', function(){
+  descriptionribe('with valid input', function(){
     it('should return an aws response', done => {
       let params = {
         Bucket: process.env.AWS_BUCKET,
@@ -28,7 +28,7 @@ describe('testing s3UploadPromise', function(){
     })
   })
 
-  describe('with no ACL', function(){
+  descriptionribe('with no ACL', function(){
     it('should return an error', done => {
       let params = {
         Bucket: process.env.AWS_BUCKET,
@@ -45,7 +45,7 @@ describe('testing s3UploadPromise', function(){
     })
   })
 
-  describe('with with no key', function(){
+  descriptionribe('with with no key', function(){
     it('should return an aws response', done => {
       let params = {
         Bucket: process.env.AWS_BUCKET,
@@ -62,7 +62,7 @@ describe('testing s3UploadPromise', function(){
     })
   })
 
-  describe('with with no body', function(){
+  descriptionribe('with with no body', function(){
     it('should return an aws response', done => {
       let params = {
         Bucket: process.env.AWS_BUCKET,

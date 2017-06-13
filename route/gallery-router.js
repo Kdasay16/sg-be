@@ -94,7 +94,7 @@ galleryRouter.delete('/api/gallery/:id', bearerAuth, function(req, res, next){
 galleryRouter.get('/api/gallery', bearerAuth, pageQueries, itemQueries, function(req, res, next){
   debug('GET /api/gallery')
 
-  let fields = ['name', 'desc']
+  let fields = ['name', 'description']
   let query = fuzzyQuery(fields, req.query)
   query.userID = req.user._id.toString()
   Gallery.find(query)
@@ -113,7 +113,7 @@ galleryRouter.get('/api/gallery', bearerAuth, pageQueries, itemQueries, function
 
 // public anyone can call
 galleryRouter.get('/api/public/gallery', pageQueries, itemQueries, function(req, res, next){
-  let fields = ['username', 'name', 'desc']
+  let fields = ['username', 'name', 'description']
   let query = fuzzyQuery(fields, req.query)
   console.log('req.query.itemcount', req.query.itemcount)
   Gallery.find(query)

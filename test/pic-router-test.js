@@ -25,11 +25,11 @@ const url = `http://localhost:${process.env.PORT}`
 
 const examplePic = {
   name: 'sunburn',
-  desc: 'owie no thank you',
+  description: 'owie no thank you',
   file: `${__dirname}/data/shield.png`,
 }
 
-describe('testing pic-router', function(){
+descriptionribe('testing pic-router', function(){
   // start server before all tests
   before( done => serverCtrl.serverUp(server, done))
   // stop server before all tests
@@ -37,21 +37,21 @@ describe('testing pic-router', function(){
   // remove all models from database after every test
   afterEach(done => cleanDB(done))
 
-  describe('testing post /api/gallery/:id/pic', function(){
-    describe('with valid token and data', function(){
+  descriptionribe('testing post /api/gallery/:id/pic', function(){
+    descriptionribe('with valid token and data', function(){
       before(done => galleryMock.call(this, done))
       it('should return a pic', done => {
         request.post(`${url}/api/gallery/${this.tempGallery._id}/pic`)
         .set({Authorization: `Bearer ${this.tempToken}`})
         .field('name', examplePic.name)
-        .field('desc', examplePic.desc)
+        .field('description', examplePic.description)
         .attach('file', examplePic.file)
         .end((err, res) => {
           if (err)
             return done(err)
           expect(res.status).to.equal(200)
           expect(res.body.name).to.equal(examplePic.name)
-          expect(res.body.desc).to.equal(examplePic.desc)
+          expect(res.body.description).to.equal(examplePic.description)
           expect(res.body.imageURI).to.equal(awsMocks.uploadMock.Location)
           expect(res.body.objectKey).to.equal(awsMocks.uploadMock.Key)
           done()
@@ -59,12 +59,12 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('with no name', function(){
+    descriptionribe('with no name', function(){
       before(done => galleryMock.call(this, done))
       it('should respond with status 400', done => {
         request.post(`${url}/api/gallery/${this.tempGallery._id}/pic`)
         .set({Authorization: `Bearer ${this.tempToken}`})
-        .field('desc', examplePic.desc)
+        .field('description', examplePic.description)
         .attach('file', examplePic.file)
         .end((err, res) => {
           expect(res.status).to.equal(400)
@@ -74,7 +74,7 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('with no desc', function(){
+    descriptionribe('with no description', function(){
       before(done => galleryMock.call(this, done))
       it('should respond with status 400', done => {
         request.post(`${url}/api/gallery/${this.tempGallery._id}/pic`)
@@ -89,12 +89,12 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('with no file', function(){
+    descriptionribe('with no file', function(){
       before(done => galleryMock.call(this, done))
       it('should respond with status 400', done => {
         request.post(`${url}/api/gallery/${this.tempGallery._id}/pic`)
         .set({Authorization: `Bearer ${this.tempToken}`})
-        .field('desc', examplePic.desc)
+        .field('description', examplePic.description)
         .field('name', examplePic.name)
         .end((err, res) => {
           expect(res.status).to.equal(400)
@@ -104,12 +104,12 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('with invalid token', function(){
+    descriptionribe('with invalid token', function(){
       before(done => galleryMock.call(this, done))
       it('should respond with status 401', done => {
         request.post(`${url}/api/gallery/${this.tempGallery._id}/pic`)
         .set({Authorization: `Bearer ${this.tempToken}bad`})
-        .field('desc', examplePic.desc)
+        .field('description', examplePic.description)
         .field('name', examplePic.name)
         .attach('file', examplePic.file)
         .end((err, res) => {
@@ -120,12 +120,12 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('with invalid galleryID', function(){
+    descriptionribe('with invalid galleryID', function(){
       before(done => galleryMock.call(this, done))
       it('should respond with status 404', done => {
         request.post(`${url}/api/gallery/${this.tempGallery._id}bad/pic`)
         .set({Authorization: `Bearer ${this.tempToken}`})
-        .field('desc', examplePic.desc)
+        .field('description', examplePic.description)
         .field('name', examplePic.name)
         .attach('file', examplePic.file)
         .end((err, res) => {
@@ -137,8 +137,8 @@ describe('testing pic-router', function(){
     })
   })
 
-  describe('testing DELETE /api/gallery/:gallryID/pic/:picID', function(){
-    describe('with valid token and ids', function(){
+  descriptionribe('testing DELETE /api/gallery/:gallryID/pic/:picID', function(){
+    descriptionribe('with valid token and ids', function(){
       before(done => picMock.call(this, done))
 
       it('should respond with status 204', done => {
@@ -153,7 +153,7 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('with invalid token', function(){
+    descriptionribe('with invalid token', function(){
       before(done => picMock.call(this, done))
       it('should respond with status 401', done => {
         request.delete(`${url}/api/gallery/${this.tempGallery._id}/pic/${this.tempPic._id}`)
@@ -166,7 +166,7 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('should resond with 401', function(){
+    descriptionribe('should resond with 401', function(){
       before(done => picMock.call(this, done))
       before(done => userMock.call(this, done))
 
@@ -180,7 +180,7 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('no auth header', function(){
+    descriptionribe('no auth header', function(){
       before(done => picMock.call(this, done))
       it('should respond with status 400', done => {
         request.delete(`${url}/api/gallery/${this.tempGallery._id}/pic/${this.tempPic._id}`)
@@ -192,7 +192,7 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('with no bearer auth', function(){
+    descriptionribe('with no bearer auth', function(){
       before(done => picMock.call(this, done))
       it('should respond with status 400', done => {
         request.delete(`${url}/api/gallery/${this.tempGallery._id}/pic/${this.tempPic._id}`)
@@ -205,7 +205,7 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('with invalid galleryID', function(){
+    descriptionribe('with invalid galleryID', function(){
       before(done => picMock.call(this, done))
       it('should respond with status 404', done => {
         request.delete(`${url}/api/gallery/${this.tempGallery._id}bad/pic/${this.tempPic._id}`)
@@ -218,7 +218,7 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('with invalid picID', function(){
+    descriptionribe('with invalid picID', function(){
       before(done => picMock.call(this, done))
       it('should respond with status 404', done => {
         request.delete(`${url}/api/gallery/${this.tempGallery._id}/pic/${this.tempPic._id}bad`)
@@ -232,8 +232,8 @@ describe('testing pic-router', function(){
     })
   })
 
-  describe('testing GET /api/public/pic', function(){
-    describe('with valid request', function(){
+  descriptionribe('testing GET /api/public/pic', function(){
+    descriptionribe('with valid request', function(){
       before(done => mockManyPics.call(this, 100, done))
       it ('should return an array of pics', done => {
         request.get(`${url}/api/public/pic`)
@@ -251,7 +251,7 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('with ?name=do', function(){
+    descriptionribe('with ?name=do', function(){
       before(done => mockManyPics.call(this, 100, done))
       it ('should return an array of pics', done => {
         request.get(`${url}/api/public/pic?name=do`)
@@ -269,10 +269,10 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('with ?desc=lorem', function(){
+    descriptionribe('with ?description=lorem', function(){
       before(done => mockManyPics.call(this, 50, done))
       it ('should return an array of pics', done => {
-        request.get(`${url}/api/public/pic?desc=lorem`)
+        request.get(`${url}/api/public/pic?description=lorem`)
         .end((err, res) => {
           if (err)
             return done(err)
@@ -280,17 +280,17 @@ describe('testing pic-router', function(){
           expect(Array.isArray(res.body)).to.equal(true)
           let fuzzy = fuzzyRegex('lorem')
           for(let i=0; i<res.body.length; i++){
-            expect(res.body[i].desc).to.match(fuzzy)
+            expect(res.body[i].description).to.match(fuzzy)
           }
           done()
         })
       })
     })
 
-    describe('with ?desc=lorem%20ip', function(){
+    descriptionribe('with ?description=lorem%20ip', function(){
       before(done => mockManyPics.call(this, 50, done))
       it ('should return an array of pics', done => {
-        request.get(`${url}/api/public/pic?desc=lorem%20ip`)
+        request.get(`${url}/api/public/pic?description=lorem%20ip`)
         .end((err, res) => {
           if (err)
             return done(err)
@@ -298,34 +298,34 @@ describe('testing pic-router', function(){
           expect(Array.isArray(res.body)).to.equal(true)
           let fuzzy = fuzzyRegex('lorem ip')
           for(let i=0; i<res.body.length; i++){
-            expect(res.body[i].desc).to.match(fuzzy)
+            expect(res.body[i].description).to.match(fuzzy)
           }
           done()
         })
       })
     })
 
-    describe('with ?desc=lo&name=do', function(){
+    descriptionribe('with ?description=lo&name=do', function(){
       before(done => mockManyPics.call(this, 100, done))
       it ('should return an array of pics', done => {
-        request.get(`${url}/api/public/pic?desc=lorem&name=do`)
+        request.get(`${url}/api/public/pic?description=lorem&name=do`)
         .end((err, res) => {
           if (err)
             return done(err)
           expect(res.status).to.equal(200)
           expect(Array.isArray(res.body)).to.equal(true)
           let fuzzyName = fuzzyRegex('do')
-          let fuzzyDesc = fuzzyRegex('lo')
+          let fuzzydescription = fuzzyRegex('lo')
           for(let i=0; i<res.body.length; i++){
             expect(res.body[i].name).to.match(fuzzyName)
-            expect(res.body[i].desc).to.match(fuzzyDesc)
+            expect(res.body[i].description).to.match(fuzzydescription)
           }
           done()
         })
       })
     })
 
-    describe('with ?username=lop', function(){
+    descriptionribe('with ?username=lop', function(){
       let options = {
         users: 20,
         gallerys: 2,
@@ -358,8 +358,8 @@ describe('testing pic-router', function(){
     })
   })
 
-  describe('testing GET /api/pic', function(){
-    describe('with valid token', function(){
+  descriptionribe('testing GET /api/pic', function(){
+    descriptionribe('with valid token', function(){
       before(done => mockManyPics.call(this, 100, done))
       it ('should return an array of pics', done => {
         request.get(`${url}/api/pic`)
@@ -377,7 +377,7 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('with invalid token', function(){
+    descriptionribe('with invalid token', function(){
       before(done => mockManyPics.call(this, 100, done))
       it ('should return an array of pics', done => {
         request.get(`${url}/api/pic`)
@@ -390,7 +390,7 @@ describe('testing pic-router', function(){
     })
 
     
-    describe('with ?name=do', function(){
+    descriptionribe('with ?name=do', function(){
       before(done => mockManyPics.call(this, 100, done))
       it ('should return an array of pics', done => {
         request.get(`${url}/api/pic?name=do`)
@@ -406,16 +406,16 @@ describe('testing pic-router', function(){
       })
     })
 
-    describe('with ?desc=do', function(){
+    descriptionribe('with ?description=do', function(){
       before(done => mockManyPics.call(this, 10, done))
       it ('should return an array of pics', done => {
-        request.get(`${url}/api/pic?desc=do`)
+        request.get(`${url}/api/pic?description=do`)
         .set({Authorization: `Bearer ${this.tempToken}`})
         .end((err, res) => {
           expect(res.status).to.equal(200)
           let fuzzyName = fuzzyRegex('do')
           for(let i=0; i<res.body.length; i++){
-            expect(res.body[i].desc).to.match(fuzzyName)
+            expect(res.body[i].description).to.match(fuzzyName)
           }
           done()
         })
